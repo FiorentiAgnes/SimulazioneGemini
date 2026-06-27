@@ -9,8 +9,7 @@ class Controller:
     def handleCreaGrafo(self, e):
         pass
 
-    def handlePlaylist(self, e):
-        pass
 
-    def fillDDGeneri(self):
+
+    def fillDDNazioni(self):
         pass

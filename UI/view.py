@@ -4,48 +4,44 @@ import flet as ft
 class View(ft.UserControl):
     def __init__(self, page: ft.Page):
         super().__init__()
+        # page stuff
         self._page = page
-        self._page.title = "Esame 02/11/2022 - iTunes"
+        self._page.title = "Lab11-Simulazione esame"
         self._page.horizontal_alignment = 'CENTER'
         self._page.theme_mode = ft.ThemeMode.LIGHT
-
+        # controller (it is not initialized. Must be initialized in the main, after the controller is created)
         self._controller = None
-
+        # graphical elements
         self._title = None
-        self._dd_genere = None
-        self._txt_min = None
-        self._txt_max = None
-
-        self._btn_crea_grafo = None
-        self._btn_playlist = None
+        self.txt_name = None
+        self.btn_hello = None
         self.txt_result = None
+        self.txt_container = None
 
     def load_interface(self):
-        self._title = ft.Text("Esame 02/11/2022 iTunes", color="blue", size=24)
+        # title
+        self._title = ft.Text("TdP-Simulazione esame Chinook", color="blue", size=24)
         self._page.controls.append(self._title)
 
-        self._dd_genere = ft.Dropdown(label="Genere", hint_text="Seleziona un genere", width=300)
-        self._btn_crea_grafo = ft.ElevatedButton(text="Crea Grafo", on_click=self._controller.handleCreaGrafo,
-                                                 width=200)
 
-        row1 = ft.Row([self._dd_genere, self._btn_crea_grafo],
-                      alignment=ft.MainAxisAlignment.CENTER,
-                      vertical_alignment=ft.CrossAxisAlignment.END)
+        self._ddNazione = ft.Dropdown(label="Genere")
+
+        self._btnCreaGrafo = ft.ElevatedButton(text="Crea Grafo", on_click=self._controller.handleCreaGrafo)
+
+        row1 = ft.Row([self._ddNazione, self._btnCreaGrafo],
+                      alignment=ft.MainAxisAlignment.CENTER)
         self._page.controls.append(row1)
+        """
+        self._ddArtist = ft.Dropdown(label="Artist")
+        self._btnCreaGrafo = ft.ElevatedButton(text="Trova Cammino", on_click=self._controller.handleCammino)
 
-        self._txt_min = ft.TextField(label="Min (secondi)", hint_text="Durata minima", width=145)
-        self._txt_max = ft.TextField(label="Max (secondi)", hint_text="Durata massima", width=145)
-        self._btn_playlist = ft.ElevatedButton(text="La mia playlist", on_click=self._controller.handlePlaylist,
-                                               width=200)
+        row2 = ft.Row([self._ddArtist, self._btnCreaGrafo],
+                      alignment=ft.MainAxisAlignment.CENTER)
+        self._page.controls.append(row2)"""
 
-        row2 = ft.Row([self._txt_min, self._txt_max, self._btn_playlist],
-                      alignment=ft.MainAxisAlignment.CENTER,
-                      vertical_alignment=ft.CrossAxisAlignment.END)
-        self._page.controls.append(row2)
-
+        # List View where the reply is printed
         self.txt_result = ft.ListView(expand=1, spacing=10, padding=20, auto_scroll=True)
         self._page.controls.append(self.txt_result)
-
         self._page.update()
 
     @property
