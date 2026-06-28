@@ -118,14 +118,11 @@ WHERE (e1.ReportsTo = e2.EmployeeId OR e2.ReportsTo = e1.EmployeeId)
 alternativa archi: 
 SELECT e1.EmployeeId as id1, e2.EmployeeId as id2, (e1.fatturatoTotale + e2.fatturatoTotale) as peso
 FROM
-  -- Sottoquery 1: calcola il fatturato di TUTTI gli impiegati
   (SELECT e.EmployeeId, e.ReportsTo, COALESCE(SUM(i.Total), 0) as fatturatoTotale
    FROM employee e
    LEFT JOIN customer c ON c.SupportRepId = e.EmployeeId
    LEFT JOIN invoice i ON i.CustomerId = c.CustomerId AND i.BillingCountry = 'Italy'
    GROUP BY e.EmployeeId, e.ReportsTo) e1,
-
-  -- Sottoquery 2: identica alla prima
   (SELECT e.EmployeeId, e.ReportsTo, COALESCE(SUM(i.Total), 0) as fatturatoTotale
    FROM employee e
    LEFT JOIN customer c ON c.SupportRepId = e.EmployeeId
@@ -133,13 +130,8 @@ FROM
    GROUP BY e.EmployeeId, e.ReportsTo) e2
 
 WHERE
-  -- 1. Condizione di legame gerarchico (con le parentesi)
   (e1.ReportsTo = e2.EmployeeId OR e2.ReportsTo = e1.EmployeeId)
-  
-  -- 2. Verso dell'arco: il fatturato di e1 deve essere maggiore O UGUALE a e2
   AND e1.fatturatoTotale >= e2.fatturatoTotale
-  
-  -- 3. Evitiamo che un nodo faccia un arco su se stesso (nel caso limite in cui ReportsTo punti a se stesso)
   AND e1.EmployeeId <> e2.EmployeeId;
 
 
