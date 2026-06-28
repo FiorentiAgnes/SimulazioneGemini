@@ -24,20 +24,21 @@ class View(ft.UserControl):
         self._page.controls.append(self._title)
 
 
-        self._ddNazione = ft.Dropdown(label="Genere")
+        self._ddNazione = ft.Dropdown(label="Country")
+        self._controller.fillDDNazioni()
 
         self._btnCreaGrafo = ft.ElevatedButton(text="Crea Grafo", on_click=self._controller.handleCreaGrafo)
 
         row1 = ft.Row([self._ddNazione, self._btnCreaGrafo],
                       alignment=ft.MainAxisAlignment.CENTER)
         self._page.controls.append(row1)
-        """
-        self._ddArtist = ft.Dropdown(label="Artist")
-        self._btnCreaGrafo = ft.ElevatedButton(text="Trova Cammino", on_click=self._controller.handleCammino)
 
-        row2 = ft.Row([self._ddArtist, self._btnCreaGrafo],
+        self._ddArtist = ft.Dropdown(label="Artist")
+        self._btnTrovaCammino = ft.ElevatedButton(text="Trova Cammino", on_click=self._controller.handleCammino)
+
+        row2 = ft.Row([self._ddArtist, self._btnTrovaCammino],
                       alignment=ft.MainAxisAlignment.CENTER)
-        self._page.controls.append(row2)"""
+        self._page.controls.append(row2)
 
         # List View where the reply is printed
         self.txt_result = ft.ListView(expand=1, spacing=10, padding=20, auto_scroll=True)
